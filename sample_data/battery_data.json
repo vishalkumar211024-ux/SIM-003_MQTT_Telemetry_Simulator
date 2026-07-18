@@ -1,0 +1,47 @@
+[
+    {
+        "battery_id": "BAT001",
+        "voltage": 49.24,
+        "current": 10.22,
+        "temperature": 30.03,
+        "soc": 87,
+        "soh": 93,
+        "timestamp": "2026-07-18T17:14:53.275498"
+    },
+    {
+        "battery_id": "BAT002",
+        "voltage": 48.23,
+        "current": 18.7,
+        "temperature": 32.36,
+        "soc": 91,
+        "soh": 90,
+        "timestamp": "2026-07-18T17:14:53.275573"
+    },
+    {
+        "battery_id": "BAT003",
+        "voltage": 48.06,
+        "current": 13.12,
+        "temperature": 30.15,
+        "soc": 95,
+        "soh": 90,
+        "timestamp": "2026-07-18T17:14:53.275582"
+    },
+    {
+        "battery_id": "BAT004",
+        "voltage": 48.23,
+        "current": 10.48,
+        "temperature": 33.3,
+        "soc": 49,
+        "soh": 97,
+        "timestamp": "2026-07-18T17:14:53.275587"
+    },
+    {
+        "battery_id": "BAT005",
+        "voltage": 49.78,
+        "current": 19.48,
+        "temperature": 39.73,
+        "soc": 48,
+        "soh": 96,
+        "timestamp": "2026-07-18T17:14:53.275592"
+    }
+]
