@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from scenarios import generate_scenario_events, SCENARIOS
+from scenarios import SCENARIOS
+from service import generate_events
 
 
 app = FastAPI(title="MQTT Telemetry Simulator")
@@ -28,15 +29,22 @@ def health():
     }
 
 
+@app.get("/scenarios")
+def scenarios():
+    return {
+        "scenarios": SCENARIOS
+    }
+
+
 @app.post("/generate-events")
-def generate_events(request: GenerateRequest):
+def generate_telemetry_events(request: GenerateRequest):
 
     if request.scenario not in SCENARIOS:
         return {
             "error": f"Invalid scenario. Choose from: {SCENARIOS}"
         }
 
-    events = generate_scenario_events(
+    events = generate_events(
         battery_id=request.battery_id,
         scenario=request.scenario,
         count=request.count,
@@ -48,4 +56,17 @@ def generate_events(request: GenerateRequest):
         "scenario": request.scenario,
         "count": len(events),
         "events": events
+    }
+
+
+@app.get("/sample")
+def sample():
+    events = generate_events(
+        battery_id="BAT001",
+        scenario="normal",
+        count=1
+    )
+
+    return {
+        "sample": events[0]
     }
