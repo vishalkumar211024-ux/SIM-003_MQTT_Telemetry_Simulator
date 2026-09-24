@@ -154,17 +154,43 @@ A Python-based MQTT Telemetry Simulator developed as part of an internship proje
 
 * Completed the architecture and design phase
 
+### Week 6 – Product Development Phase 1
+
+* Implemented backend APIs using FastAPI
+
+* Added `GET /scenarios` endpoint
+
+* Added `GET /sample` endpoint
+
+* Improved `POST /generate-events` endpoint
+
+* Created `service.py` for core business logic
+
+* Integrated FastAPI with the telemetry simulator
+
+* Added API integration tests
+
+* Tested normal telemetry generation through API
+
+* Tested replay attack scenario through API
+
+* Successfully passed 12 automated tests
+
+* Maintained Week 6 work in a separate feature branch
+
+* Pushed Week 6 changes to GitHub
+
 ## Implemented Telemetry Scenarios
 
-| Scenario            | Description                                                |
+| Scenario | Description |
 | ------------------- | ---------------------------------------------------------- |
-| `normal`            | Generates valid battery telemetry                          |
-| `delayed`           | Simulates delayed telemetry                                |
-| `duplicate`         | Simulates duplicate packets                                |
-| `out_of_range`      | Generates abnormal voltage, current and temperature values |
-| `missing_timestamp` | Generates an event without a timestamp                     |
-| `spoofed_id`        | Simulates a spoofed battery identity                       |
-| `replay_attack`     | Simulates retransmission of an older telemetry event       |
+| `normal` | Generates valid battery telemetry |
+| `delayed` | Simulates delayed telemetry |
+| `duplicate` | Simulates duplicate packets |
+| `out_of_range` | Generates abnormal voltage, current and temperature values |
+| `missing_timestamp` | Generates an event without a timestamp |
+| `spoofed_id` | Simulates a spoofed battery identity |
+| `replay_attack` | Simulates retransmission of an older telemetry event |
 
 ## Test Results
 
@@ -207,64 +233,3 @@ Example request:
   "count": 3,
   "delay_seconds": 10
 }
-```
-
-### GET `/health`
-
-Returns the health status of the simulator API.
-
-## POC Findings and Limitations
-
-### Findings
-
-* Scenario-based telemetry generation can simulate normal and abnormal battery telemetry conditions.
-
-* FastAPI provides programmatic access to telemetry event generation.
-
-* Anomaly flags can identify simulated abnormal scenarios.
-
-* The simulator can be used for cybersecurity and telemetry testing without real BMS hardware.
-
-### Limitations
-
-* No real MQTT broker integration
-
-* No real BMS hardware integration
-
-* Network communication is simulated
-
-* Physical sensor data is not used
-
-* The current implementation is intended for development, testing and demonstration purposes
-
-## Next Steps
-
-* Implement the next planned features based on the architecture
-
-* Continue system testing and validation
-
-* Improve cybersecurity and telemetry handling
-
-## Project Structure
-
-```text
-SIM-003_MQTT_Telemetry_Simulator/
-
-│── main.py
-│── generator.py
-│── models.py
-│── api.py
-│── scenarios.py
-│── requirements.txt
-│── README.md
-│── sample_data/
-│   └── battery_data.json
-│── test/
-│   └── test_generator.py
-```
-
-## Author
-
-**Vishal Kumar**
-
-B.Tech – Electronics & Communication Engineering
