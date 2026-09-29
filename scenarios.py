@@ -14,10 +14,27 @@ SCENARIOS = [
 ]
 
 
-def generate_scenario_events(battery_id, scenario, count=1, delay_seconds=10):
+def get_timestamp(value):
+    """
+    Convert timestamp to datetime if needed.
+    Handles both datetime objects and strings.
+    """
+    if isinstance(value, datetime):
+        return value
+
+    return datetime.fromisoformat(value)
+
+
+def generate_scenario_events(
+    battery_id,
+    scenario,
+    count=1,
+    delay_seconds=10
+):
     events = []
 
     for i in range(count):
+
         battery_data = generate_battery_data(battery_id)
         event = battery_data.model_dump()
 
@@ -28,42 +45,57 @@ def generate_scenario_events(battery_id, scenario, count=1, delay_seconds=10):
         event["simulated"] = True
         event["anomaly"] = None
 
+        # Normal telemetry
         if scenario == "normal":
             pass
 
+        # Delayed telemetry
         elif scenario == "delayed":
-            original_time = datetime.fromisoformat(event["timestamp"])
-            delayed_time = original_time + timedelta(seconds=delay_seconds)
+            original_time = get_timestamp(event["timestamp"])
+
+            delayed_time = original_time + timedelta(
+                seconds=delay_seconds
+            )
+
             event["sent_at"] = delayed_time.isoformat()
             event["anomaly"] = "DELAYED"
 
+        # Duplicate packet
         elif scenario == "duplicate":
             event["sequence_number"] = 1
             event["anomaly"] = "DUPLICATE"
 
+        # Out-of-range values
         elif scenario == "out_of_range":
             event["voltage"] = 65.0
             event["temperature"] = 75.0
             event["current"] = 600.0
             event["anomaly"] = "OUT_OF_RANGE"
 
+        # Missing timestamp
         elif scenario == "missing_timestamp":
             event.pop("timestamp", None)
             event["anomaly"] = "MISSING_TIMESTAMP"
 
+        # Spoofed battery ID
         elif scenario == "spoofed_id":
             event["battery_id"] = f"SIM-SPOOF-{i + 1:03d}"
-            event["topic"] = f"battery/telemetry/{event['battery_id']}"
+            event["topic"] = (
+                f"battery/telemetry/{event['battery_id']}"
+            )
             event["anomaly"] = "SPOOFED_ID"
 
+        # Replay attack
         elif scenario == "replay_attack":
-            original_time = datetime.fromisoformat(event["timestamp"])
+            original_time = get_timestamp(event["timestamp"])
+
             old_time = original_time - timedelta(seconds=300)
 
             event["timestamp"] = old_time.isoformat()
             event["sent_at"] = datetime.now().isoformat()
             event["anomaly"] = "REPLAY_DETECTED"
 
+        # Invalid scenario
         else:
             raise ValueError(
                 f"Unknown scenario: {scenario}"
